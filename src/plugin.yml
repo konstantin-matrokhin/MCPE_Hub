@@ -1,0 +1,8 @@
+name: Hub
+version: 1.0
+main: Hub\Hub
+commands:
+  spawn:
+    usage: /spawn
+    aliases: [hub, lobby]
+    default: true
