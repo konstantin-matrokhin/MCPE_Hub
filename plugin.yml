@@ -1,11 +1,27 @@
 name: Hub
-version: 1.0.0
-api: "3.0.0-ALPHA10"
 main: Hub\Hub
+version: 1.0.0
+api: [3.0.0-ALPHA7, 3.0.0-ALPHA8, 3.0.0-ALPHA9, 3.0.0-ALPHA10, 3.0.0-ALPHA11]
+
+load: STARTUP
+
+author: kvlt
+description: "Hub Plugin"
+
 commands:
   spawn:
     usage: /spawn
     aliases: [hub, lobby]
-    default: true
   sethub:
+    permission: "draft.admin"
+
+permissions:
+  draft:
     default: true
+    description: "Base commands"
+    draft.admin:
+      default: op
+    draft.moder:
+      default: op
+    draft.player:
+      default: true
