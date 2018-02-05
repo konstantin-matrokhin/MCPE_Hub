@@ -6,6 +6,7 @@ namespace Hub;
 
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerLoginEvent;
+use pocketmine\event\player\PlayerPreLoginEvent;
 
 class EventListener implements Listener {
 
@@ -13,8 +14,12 @@ class EventListener implements Listener {
         $player = $event->getPlayer();
         $spawn = SpawnLocation::getSpawn();
         if ($spawn != null) {
-            $player->teleport($spawn);
+            $player->setPosition($spawn);
         }
+    }
+
+    public function onPreLogin(PlayerPreLoginEvent $event) {
+//        $event->getPlayer()->getServer()->getApiVersion()
     }
 
 }

@@ -5,48 +5,58 @@ namespace Hub;
 
 
 use pocketmine\level\Location;
+use pocketmine\math\Vector3;
 use pocketmine\Player;
+use pocketmine\Server;
 
 class SpawnLocation {
 
     private static $_location;
 
-    public static function getSpawn(): Location {
-        if (self::$_location == null) {
-            $cfg = Hub::get()->getConfig();
-            if ($cfg->exists("spawn")) {
-                $x = $cfg->get("spawn.x");
-                $y = $cfg->get("spawn.y");
-                $z = $cfg->get("spawn.z");
-                $yaw = $cfg->get("spawn.yaw");
-                $pitch = $cfg->get("spawn.pitch");
-                $level = Hub::get()->getServer()->getLevelByName("spawn.level");
+    public static function load() {
+        $cfg = Hub::get()->getConfig();
 
-                self::$_location = new Location($x, $y, $z, $yaw, $pitch, $level);
-            } else {
-                throw new \InvalidArgumentException("spawn not defined in config!");
-            }
+        Hub::log()->info("loading..");
+        echo "........";
+        if ($cfg->exists("spawn")) {
+            $x = $cfg->getNested("spawn.x");
+            $y = $cfg->getNested("spawn.yy");
+            $z = $cfg->getNested("spawn.z");
+//            $level = Hub::get()->getServer()->getLevelByName("spawn.level");
+
+            self::$_location = new Vector3($x, $y, $z);
+            Hub::log()->info("SPAWN LOADED: " . $x);
+        } else {
+            self::$_location = Server::getInstance()
+                ->getDefaultLevel()
+                ->getSpawnLocation()
+                ->asVector3();
+            Server::getInstance()->getLogger()->alert("Место спауна не назначено!");
         }
+    }
+
+    public static function setSpawn(Location $newSpawn) {
+        $coordinates = [
+            "x" => $newSpawn->getX(),
+            "yy" => $newSpawn->getY(),
+            "z" => $newSpawn->getZ(),
+            "level" => $newSpawn->getLevel()->getName()
+        ];
+
+        $cfg = Hub::get()->getConfig();
+        $cfg->setAll($coordinates);
+        $cfg->save();
+        $cfg->reload();
+
+        self::$_location = $newSpawn;
+    }
+
+    public static function getSpawn(): Vector3 {
         return self::$_location;
     }
 
     public static function teleport(Player $player) {
-
         $player->teleport(self::getSpawn());
-    }
-
-    public static function setSpawn(Location $loc) {
-        $newSpawn = [
-            "x" => $loc->getX(),
-            "y" => $loc->getY(),
-            "z" => $loc->getZ(),
-            "yaw" => $loc->getYaw(),
-            "pitch" => $loc->getPitch(),
-            "level" => $loc->getLevel()->getName(),
-        ];
-
-        Hub::get()->getConfig()->setAll($newSpawn);
-        Hub::get()->saveConfig();
     }
 
 }

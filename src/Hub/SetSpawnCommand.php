@@ -8,14 +8,13 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 
-class HubCommand extends Command {
+class SetSpawnCommand extends Command {
 
     public function __construct() {
-        parent::__construct("hub");
+        parent::__construct("setspawn");
     }
 
     /**
-     *
      * @param CommandSender $sender
      * @param string $commandLabel
      * @param string[] $args
@@ -23,10 +22,13 @@ class HubCommand extends Command {
      * @return mixed
      */
     public function execute(CommandSender $sender, string $commandLabel, array $args) {
-        if (!($sender instanceof Player)) {
-            $sender->sendMessage("Command only for player");
+        echo "ну че погнали ебаный в рот!";
+        if ($sender instanceof Player) {
+            $currentLocation = $sender->getLocation();
+            SpawnLocation::setSpawn($currentLocation);
+            $sender->sendMessage("Spawn has set!");
         } else {
-            SpawnLocation::teleport($sender);
+            echo "only for players!";
         }
     }
 
