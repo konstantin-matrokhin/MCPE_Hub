@@ -37,10 +37,12 @@ class SpawnLocation {
 
     public static function setSpawn(Location $newSpawn) {
         $coordinates = [
-            "x" => $newSpawn->getX(),
-            "yy" => $newSpawn->getY(),
-            "z" => $newSpawn->getZ(),
-            "level" => $newSpawn->getLevel()->getName()
+            "spawn" => [
+                "x" => $newSpawn->getX(),
+                "yy" => $newSpawn->getY(),
+                "z" => $newSpawn->getZ(),
+                "level" => $newSpawn->getLevel()->getName()
+            ]
         ];
 
         $cfg = Hub::get()->getConfig();
