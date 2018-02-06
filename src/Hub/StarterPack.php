@@ -7,7 +7,6 @@ namespace Hub;
 use pocketmine\inventory\Inventory;
 use pocketmine\item\Item;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 
 class StarterPack {
 
