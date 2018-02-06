@@ -16,16 +16,16 @@ class SpawnLocation {
     public static function load() {
         $cfg = Hub::get()->getConfig();
 
-        Hub::log()->info("loading..");
-        echo "........";
         if ($cfg->exists("spawn")) {
-            $x = $cfg->getNested("spawn.x");
+            $x = $cfg->getNested("spawn.xx");
             $y = $cfg->getNested("spawn.yy");
-            $z = $cfg->getNested("spawn.z");
-//            $level = Hub::get()->getServer()->getLevelByName("spawn.level");
+            $z = $cfg->getNested("spawn.zz");
+            $yaw = $cfg->getNested("spawn.yaw");
+            $pitch = $cfg->getNested("spawn.pitch");
+            $levelName = $cfg->getNested("spawn.level");
+            $level = Hub::get()->getServer()->getLevelByName($levelName);
 
-            self::$_location = new Vector3($x, $y, $z);
-            Hub::log()->info("SPAWN LOADED: " . $x);
+            self::$_location = new Location($x, $y, $z);
         } else {
             self::$_location = Server::getInstance()
                 ->getDefaultLevel()
