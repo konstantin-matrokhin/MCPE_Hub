@@ -6,6 +6,7 @@ namespace Hub;
 
 use Hub\GUI\Button;
 use Hub\GUI\Form;
+use Hub\GUI\GUI;
 use Hub\GUI\ModalForm;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
@@ -41,15 +42,8 @@ class EventListener implements Listener {
             ->getItemInHand()
             ->equals(self::$navigationItem)) {
             $player->sendMessage(TextFormat::AQUA . "Меню открыто!");
-            $this->openModal($player);
+            GUI::open($player, NavigationGUI::getForm());
         }
-    }
-
-    private function openModal(Player $player) {
-        $form = new Form("Test 22", 1);
-        $form->setText("Прив че дел?)");
-        $form->addButton(new Button("Да ниче, хех)"));
-        $form->send($player);
     }
 
 }

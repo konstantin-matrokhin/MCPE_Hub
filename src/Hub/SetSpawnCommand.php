@@ -22,13 +22,12 @@ class SetSpawnCommand extends Command {
      * @return mixed
      */
     public function execute(CommandSender $sender, string $commandLabel, array $args) {
-        echo "ну че погнали ебаный в рот!";
         if ($sender instanceof Player) {
             $currentLocation = $sender->getLocation();
             SpawnLocation::setSpawn($currentLocation);
             $sender->sendMessage("Spawn has set!");
         } else {
-            echo "only for players!";
+            echo "only for players!\n";
         }
     }
 
